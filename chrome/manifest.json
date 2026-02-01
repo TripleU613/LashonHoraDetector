@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Lashon Hora Blocker",
+  "version": "0.1.0",
+  "description": "Blur Discourse posts containing specified phrases with a Lashon Hora overlay.",
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "options_page": "options.html",
+  "action": {
+    "default_title": "Lashon Hora Blocker",
+    "default_popup": "popup.html"
+  }
+}

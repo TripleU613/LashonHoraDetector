@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lashon Hora Blocker</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <header>
+        <h1>Lashon Hora</h1>
+        <p>Every line is a word or phrase. Visible matches get blocked.</p>
+      </header>
+
+      <section class="editor">
+        <textarea
+          id="terms"
+          rows="10"
+          placeholder="enter a bad word or a string of bad words you want to filter"
+        ></textarea>
+      </section>
+
+      <section class="controls">
+        <label class="file-button" for="file">Import</label>
+        <input id="file" type="file" accept=".txt,.json,.xml,text/plain,application/json,text/xml,application/xml" />
+        <button id="save" type="button">Save</button>
+        <button id="clear" type="button" class="ghost">Clear</button>
+        <div id="status" role="status" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lashon Hora Blocker</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="panel">
+      <header>
+        <h1>Lashon Hora Blocker</h1>
+        <p>One phrase per line. Matches are case-insensitive.</p>
+      </header>
+
+      <section class="editor">
+        <label for="terms">Blocked phrases</label>
+        <textarea
+          id="terms"
+          rows="12"
+          placeholder="sucks\nbad company\nthey are a scam"
+        ></textarea>
+      </section>
+
+      <section class="controls">
+        <label class="file-button" for="file">Import .txt</label>
+        <input id="file" type="file" accept=".txt,text/plain" />
+        <button id="save" type="button">Save</button>
+        <div id="status" role="status" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script src="options.js"></script>
+  </body>
+</html>

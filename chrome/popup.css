@@ -1,0 +1,115 @@
+:root {
+  --bg-1: #0b0d10;
+  --bg-2: #161a20;
+  --panel: #14171d;
+  --panel-edge: #242a33;
+  --text: #f2f4f7;
+  --muted: #aab2bd;
+  --accent: #ff8a3d;
+  --accent-dark: #d46b24;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 360px;
+  background: radial-gradient(circle at top, rgba(255, 138, 61, 0.18), transparent 42%),
+    linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  color: var(--text);
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.panel {
+  padding: 16px;
+}
+
+header {
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  letter-spacing: 0.6px;
+}
+
+header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.editor {
+  margin: 10px 0 12px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 180px;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #2b313b;
+  background: #0f1116;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: 2px solid rgba(255, 138, 61, 0.45);
+  outline-offset: 2px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.file-button,
+button {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+}
+
+.file-button {
+  background: rgba(255, 138, 61, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(255, 138, 61, 0.45);
+}
+
+button {
+  background: var(--accent);
+  color: #1a120c;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid #2b313b;
+}
+
+#file {
+  display: none;
+}
+
+#status {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+}

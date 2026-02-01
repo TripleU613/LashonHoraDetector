@@ -1,0 +1,33 @@
+name: Release Extensions
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Package Chrome
+        run: |
+          mkdir -p dist
+          cd chrome
+          zip -r ../dist/LashonHoraDetector-chrome.zip .
+
+      - name: Package Firefox
+        run: |
+          mkdir -p dist
+          cd firefox
+          zip -r ../dist/LashonHoraDetector-firefox.zip .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip

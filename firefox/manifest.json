@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Lashon Hora Blocker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Blur Discourse posts containing specified phrases with a Lashon Hora overlay.",
   "permissions": ["storage"],
   "content_scripts": [

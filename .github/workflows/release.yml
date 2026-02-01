@@ -28,6 +28,9 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install web-ext
+        run: npm install -g web-ext
+
       - name: Bump version
         id: bump
         run: |
@@ -100,11 +103,27 @@ jobs:
           cd firefox
           zip -r ../dist/LashonHoraDetector-firefox.zip .
 
-      - name: Package Firefox XPI
+      - name: Sign Firefox XPI
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
-          mkdir -p dist
-          cd firefox
-          zip -r ../dist/LashonHoraDetector-firefox.xpi .
+          if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
+            echo "Missing AMO_JWT_ISSUER or AMO_JWT_SECRET secret." >&2
+            exit 1
+          fi
+          web-ext sign \
+            --source-dir firefox \
+            --api-key "$AMO_JWT_ISSUER" \
+            --api-secret "$AMO_JWT_SECRET" \
+            --channel unlisted \
+            --artifacts-dir dist
+          SIGNED_XPI=$(ls dist/*.xpi | head -n 1)
+          if [ -z "$SIGNED_XPI" ]; then
+            echo "Signed XPI not found." >&2
+            exit 1
+          fi
+          mv "$SIGNED_XPI" dist/LashonHoraDetector-firefox.xpi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

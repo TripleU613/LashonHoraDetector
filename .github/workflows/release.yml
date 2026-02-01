@@ -15,11 +15,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
       - name: Package Chrome
         run: |
           mkdir -p dist
           cd chrome
           zip -r ../dist/LashonHoraDetector-chrome.zip .
+
+      - name: Package Chrome CRX
+        env:
+          CHROME_EXTENSION_KEY: ${{ secrets.CHROME_EXTENSION_KEY }}
+        run: |
+          if [ -z "$CHROME_EXTENSION_KEY" ]; then
+            echo "Missing CHROME_EXTENSION_KEY secret." >&2
+            exit 1
+          fi
+          KEY_PATH="$RUNNER_TEMP/chrome-extension-key.pem"
+          echo "$CHROME_EXTENSION_KEY" | base64 -d > "$KEY_PATH"
+          node scripts/pack-crx.js chrome "$KEY_PATH" dist/LashonHoraDetector-chrome.crx
 
       - name: Package Firefox
         run: |
@@ -27,7 +44,13 @@ jobs:
           cd firefox
           zip -r ../dist/LashonHoraDetector-firefox.zip .
 
+      - name: Package Firefox XPI
+        run: |
+          mkdir -p dist
+          cd firefox
+          zip -r ../dist/LashonHoraDetector-firefox.xpi .
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.zip
+          files: dist/*

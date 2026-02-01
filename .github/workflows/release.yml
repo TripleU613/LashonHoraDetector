@@ -103,14 +103,22 @@ jobs:
           cd firefox
           zip -r ../dist/LashonHoraDetector-firefox.zip .
 
+      - name: Package Firefox Unsigned XPI
+        run: |
+          mkdir -p dist
+          cd firefox
+          zip -r ../dist/LashonHoraDetector-firefox-unsigned.xpi .
+
       - name: Sign Firefox XPI
+        continue-on-error: true
+        timeout-minutes: 15
         env:
           AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
           AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
         run: |
           if [ -z "$AMO_JWT_ISSUER" ] || [ -z "$AMO_JWT_SECRET" ]; then
             echo "Missing AMO_JWT_ISSUER or AMO_JWT_SECRET secret." >&2
-            exit 1
+            exit 0
           fi
           web-ext sign \
             --source-dir firefox \
@@ -118,12 +126,10 @@ jobs:
             --api-secret "$AMO_JWT_SECRET" \
             --channel unlisted \
             --artifacts-dir dist
-          SIGNED_XPI=$(ls dist/*.xpi | head -n 1)
-          if [ -z "$SIGNED_XPI" ]; then
-            echo "Signed XPI not found." >&2
-            exit 1
+          SIGNED_XPI=$(ls dist/*.xpi | grep -v unsigned | head -n 1 || true)
+          if [ -n "$SIGNED_XPI" ]; then
+            mv "$SIGNED_XPI" dist/LashonHoraDetector-firefox.xpi
           fi
-          mv "$SIGNED_XPI" dist/LashonHoraDetector-firefox.xpi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

@@ -59,10 +59,10 @@ jobs:
 
           with open("chrome/manifest.json", "w", encoding="utf-8") as f:
               json.dump(chrome, f, indent=2)
-              f.write("\\n")
+              f.write("\n")
           with open("firefox/manifest.json", "w", encoding="utf-8") as f:
               json.dump(firefox, f, indent=2)
-              f.write("\\n")
+              f.write("\n")
 
           with open("version.txt", "w", encoding="utf-8") as f:
               f.write(new_version)

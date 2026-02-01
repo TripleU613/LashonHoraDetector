@@ -2,23 +2,79 @@ name: Release Extensions
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-release:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
+      - name: Bump version
+        id: bump
+        run: |
+          python - <<'PY'
+          import json
+
+          def load(path):
+              with open(path, "r", encoding="utf-8") as f:
+                  return json.load(f)
+
+          chrome = load("chrome/manifest.json")
+          firefox = load("firefox/manifest.json")
+
+          version = chrome.get("version")
+          if version != firefox.get("version"):
+              raise SystemExit(f"Version mismatch: chrome={version} firefox={firefox.get('version')}")
+
+          parts = [int(p) for p in version.split(".")]
+          if len(parts) != 3:
+              raise SystemExit(f"Unexpected version format: {version}")
+          parts[2] += 1
+          new_version = ".".join(str(p) for p in parts)
+
+          chrome["version"] = new_version
+          firefox["version"] = new_version
+
+          with open("chrome/manifest.json", "w", encoding="utf-8") as f:
+              json.dump(chrome, f, indent=2)
+              f.write("\\n")
+          with open("firefox/manifest.json", "w", encoding="utf-8") as f:
+              json.dump(firefox, f, indent=2)
+              f.write("\\n")
+
+          with open("version.txt", "w", encoding="utf-8") as f:
+              f.write(new_version)
+          print(new_version)
+          PY
+
+          VERSION=$(cat version.txt)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add chrome/manifest.json firefox/manifest.json
+          git commit -m "chore: bump version to $VERSION [skip ci]"
+          git tag -a "v$VERSION" -m "Release v$VERSION"
+          git push origin main --follow-tags
 
       - name: Package Chrome
         run: |
@@ -53,4 +109,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v${{ steps.bump.outputs.version }}
+          name: v${{ steps.bump.outputs.version }}
+          generate_release_notes: true
           files: dist/*

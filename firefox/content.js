@@ -111,9 +111,10 @@
 
   function scanPost(postEl) {
     const text = getPostText(postEl);
+    const hasText = text.trim().length > 0;
     if (shouldBlock(text)) {
       applyBlock(postEl);
-    } else {
+    } else if (hasText) {
       clearBlock(postEl);
     }
   }

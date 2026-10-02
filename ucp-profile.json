@@ -1,13 +1,34 @@
 {
   "ucp": {
-    "version": "2026-08-25"
+    "version": "2026-08-25",
+    "services": {
+      "dev.ucp.shopping": [
+        {
+          "version": "2026-08-25",
+          "spec": "https://ucp.dev/2026-08-25/specification/overview",
+          "transport": "mcp",
+          "schema": "https://ucp.dev/2026-08-25/services/shopping/mcp.openrpc.json"
+        }
+      ]
+    },
+    "capabilities": {
+      "dev.ucp.shopping.catalog": [
+        {
+          "version": "2026-08-25"
+        }
+      ],
+      "dev.ucp.shopping.cart": [
+        {
+          "version": "2026-08-25"
+        }
+      ],
+      "dev.ucp.shopping.checkout": [
+        {
+          "version": "2026-08-25"
+        }
+      ]
+    }
   },
   "name": "MostlyMusic Download Agent",
-  "description": "Agent for accessing digital purchases",
-  "services": [
-    {
-      "type": "mcp",
-      "url": "https://raw.githubusercontent.com/TripleU613/LashonHoraDetector/ccr-3599286c-2s3lyd/ucp-profile.json"
-    }
-  ]
+  "description": "Agent for accessing digital purchases"
 }

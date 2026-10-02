@@ -3,5 +3,11 @@
     "version": "2026-08-25"
   },
   "name": "MostlyMusic Download Agent",
-  "description": "Agent for accessing digital purchases"
+  "description": "Agent for accessing digital purchases",
+  "services": [
+    {
+      "type": "mcp",
+      "url": "https://raw.githubusercontent.com/TripleU613/LashonHoraDetector/ccr-3599286c-2s3lyd/ucp-profile.json"
+    }
+  ]
 }

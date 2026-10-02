@@ -12,6 +12,16 @@
       ]
     },
     "capabilities": {
+      "dev.ucp.shopping.catalog.search": [
+        {
+          "version": "2026-08-25"
+        }
+      ],
+      "dev.ucp.shopping.catalog.lookup": [
+        {
+          "version": "2026-08-25"
+        }
+      ],
       "dev.ucp.shopping.catalog": [
         {
           "version": "2026-08-25"
@@ -23,6 +33,11 @@
         }
       ],
       "dev.ucp.shopping.checkout": [
+        {
+          "version": "2026-08-25"
+        }
+      ],
+      "dev.ucp.shopping.orders": [
         {
           "version": "2026-08-25"
         }

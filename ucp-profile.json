@@ -27,7 +27,8 @@
           "version": "2026-08-25"
         }
       ]
-    }
+    },
+    "payment_handlers": {}
   },
   "name": "MostlyMusic Download Agent",
   "description": "Agent for accessing digital purchases"

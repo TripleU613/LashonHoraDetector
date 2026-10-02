@@ -203,7 +203,7 @@ class CdnPane(TabPane):
         )
         yield Label("", id="cdn-progress-label", classes="progress-label")
         yield ProgressBar(total=CDN_COUNT, id="cdn-progress", show_eta=True)
-        yield Log(id="cdn-log", max_lines=300, markup=True)
+        yield Log(id="cdn-log", max_lines=300)
 
     _running = reactive(False)
     _stop    = False
@@ -293,7 +293,7 @@ class VimeoPane(TabPane):
         )
         yield Label("Checking yt-dlp…", id="vimeo-status", classes="progress-label")
         yield ProgressBar(total=VIMEO_ALBUM + VIMEO_EMBED, id="vimeo-progress", show_eta=True)
-        yield Log(id="vimeo-log", max_lines=500, markup=True)
+        yield Log(id="vimeo-log", max_lines=500)
 
     _running = reactive(False)
     _stop    = False

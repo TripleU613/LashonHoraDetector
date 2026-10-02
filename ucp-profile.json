@@ -1,0 +1,7 @@
+{
+  "ucp": {
+    "version": "2026-08-25"
+  },
+  "name": "MostlyMusic Download Agent",
+  "description": "Agent for accessing digital purchases"
+}
